@@ -27,9 +27,27 @@ public class Money {
     @Override
     public boolean equals(Object o) {
         // TODO: реализуйте вышеуказанную функцию
+        if (this == o) return true; // Проверка на идентичность
+        if (!(o instanceof Money)) // Проверка на класс
+            return false;
 
-        return false;
+        Money money = (Money) o;
+
+        if(money.type != this.type) // Проверка различие типов
+            return false;
+
+        if(money.amount == null && this.amount == null)
+            return true;
+
+        if (money.amount == null || this.amount == null)
+            return false;
+
+        BigDecimal thisAmount = this.getAmount().setScale(4, RoundingMode.HALF_UP);
+        BigDecimal otherAmount = money.getAmount().setScale(4, RoundingMode.HALF_UP);
+
+        return thisAmount.equals(otherAmount);
     }
+
 
     /**
      * Формула:
@@ -49,10 +67,43 @@ public class Money {
     @Override
     public int hashCode() {
         // TODO: реализуйте вышеуказанную функцию
+        BigDecimal roundedAmount = null;
 
+        if (amount != null){
+            roundedAmount = amount.setScale(4, RoundingMode.HALF_UP);
+        } else {
+            roundedAmount = BigDecimal.valueOf(10000);
+        }
 
-        Random random = new Random();
-        return random.nextInt();
+        int currencyCode;
+        if (type == null){
+            currencyCode = 5;
+        } else {
+            switch (type) {
+                case RUB:
+                    currencyCode = 3;
+                    break;
+                case USD:
+                    currencyCode = 1;
+                    break;
+                case EURO:
+                    currencyCode = 2;
+                    break;
+                case KRONA:
+                    currencyCode = 4;
+                    break;
+                default:
+                    currencyCode = 0;
+                    break;
+            }
+        }
+
+        int hashCode = roundedAmount.multiply(BigDecimal.valueOf(10000)).intValue()+currencyCode;
+
+        if (hashCode >= MAX_VALUE - 5){
+            hashCode = MAX_VALUE;
+        }
+        return hashCode;
     }
 
     /**
@@ -75,8 +126,15 @@ public class Money {
     @Override
     public String toString() {
         // TODO: реализуйте вышеуказанную функцию
-        String str = type.toString()+": "+amount.setScale(4, RoundingMode.HALF_UP).toString();
-        return str;
+        String typeString = "null";
+        String num = "null";
+        if (this.amount != null) {
+            num = this.amount.setScale(4, RoundingMode.HALF_UP).toString();
+        }
+        if (this.type != null) {
+            typeString = this.type.toString();
+        }
+        return typeString + ": " + num;
     }
 
     public BigDecimal getAmount() {
