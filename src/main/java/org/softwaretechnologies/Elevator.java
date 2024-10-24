@@ -1,5 +1,7 @@
 package org.softwaretechnologies;
 
+import javax.sound.midi.Soundbank;
+
 public final class Elevator {
 
     /**
@@ -72,6 +74,20 @@ public final class Elevator {
      */
     public void goToExactFloor(int floor) {
        // TODO: реализуйте вышеуказанную функцию
+        if (floor > highestFloor || floor < lowestFloor){
+            System.out.println("Указан неверный этаж");
+            return;
+        }
+        while (getCurrentFloor() != floor){
+            System.out.println("Текущий этаж: " + getCurrentFloor());
+            if(getCurrentFloor() < floor) {
+                goUp();
+            }
+            else{
+                goDown();
+            }
+        }
+        System.out.println("Вы достигли указанного этажа: " + getCurrentFloor());
     }
 
     /**
