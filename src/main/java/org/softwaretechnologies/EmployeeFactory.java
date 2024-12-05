@@ -17,6 +17,18 @@ public class EmployeeFactory {
 
     public static Employee createEmployee(String name, int baseSalary, EmployeeType type) {
         // TODO: реализуйте вышеуказанную функцию
+        if (type == EmployeeType.Programmer) {
+            Employee employee = new Programmer(name, baseSalary);
+            return employee;
+        }
+        if (type == EmployeeType.Manager) {
+            Employee employee = new Manager(name, baseSalary);
+            return employee;
+        }
+        if (type == EmployeeType.Tester) {
+            Employee employee = new Tester(name, baseSalary);
+            return employee;
+        }
 
         return null;
     }

@@ -23,7 +23,8 @@ public class Company {
      */
     public void addEmployee(String name, int baseSalary, EmployeeType type) {
         // TODO: реализуйте вышеуказанную функцию
-
+        EmployeeFactory employee = new EmployeeFactory();
+        employeeList.add(EmployeeFactory.createEmployee(name, baseSalary,type));
     }
 
     /**
@@ -33,8 +34,12 @@ public class Company {
      */
     public int getMonthSalary(int month) {
         // TODO: реализуйте вышеуказанную функцию
-
-        return 0;
+        int Salary = 0;
+        int i;
+        for (i = 0; i < employeeList.size(); i++) {
+            Salary += employeeList.get(i).getMonthSalary(month);
+        }
+        return Salary;
     }
 
     public String getName() {
