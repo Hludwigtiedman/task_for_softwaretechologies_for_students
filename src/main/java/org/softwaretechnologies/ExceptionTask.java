@@ -1,4 +1,4 @@
-package org.softwaretechnologies;;
+package org.softwaretechnologies;
 
 import java.util.Optional;
 
